@@ -11,6 +11,18 @@ app.use(express.static(path.join(__dirname, '../public')));
 
 const rooms = {}; // { roomName: { admin: socket.id, users: Map<socket.id, username>, admins: Set<socket.id> } }
 
+const arrayInsults = ["idiota", "imbècil", "tonto", "tonta", "merda", 
+                       "cacaxúrria", "carallot", "abraçafaroles", "mocós", "pelacanyes",
+                       "botifler", "estaquirot", "baliga-balaga", "brètol", "llepaculs"];
+
+function censurarMissatge(text) {
+  return text.split(' ').map(paraula => {
+    return arrayInsults.includes(paraula.toLowerCase()) 
+      ? '*'.repeat(paraula.length) 
+      : paraula;
+  }).join(' ');
+}
+
 io.on('connection', (socket) => {
   console.log('Nou usuari connectat');
 
@@ -39,9 +51,10 @@ io.on('connection', (socket) => {
 
   socket.on('chat message', ({ text, room }) => {
     if (socket.room === room) {
+      const textCensurat = censurarMissatge(text); // Apliquem la censura
       const msg = {
         username: socket.username || 'Anònim',
-        text,
+        text: textCensurat,
         id: Date.now() + '-' + socket.id,
       };
       io.to(room).emit('chat message', msg);
