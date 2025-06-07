@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+      #chat { display: none; }
+      #admin-form { display: none; margin-top: 10px; }
+      button { margin-left: 5px; }
+    </style>
+</head>
+<body>
+  <h1>Xat</h1>
+
+  <div id="login">
+    <input id="username" placeholder="Nom d'usuari" />
+    <input id="room" placeholder="Nom de la sala" />
+    <button id="join">Entrar</button>
+  </div>
+
+  <div id="chat">
+    <button id="leave-room">Sortir de la sala</button>
+    <ul id="messages"></ul>
+    <form id="form">
+      <input id="input" autocomplete="off" placeholder="Missatge..." />
+      <button>Enviar</button>
+    </form>
+
+    <form id="admin-form">
+      <input id="new-admin" placeholder="Nou administrador" />
+      <button>Canviar administrador</button>
+    </form>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="client.js"></script>
+</html>
